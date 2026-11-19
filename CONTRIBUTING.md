@@ -28,11 +28,11 @@ The body has these parts:
 2. What changed and why, in a few lines.
 3. Proof: the check output, test result, or live check.
 4. A screenshot, when anything visible changes.
-5. `Fixes #N` for the slice issue.
+5. `Fixes #N`, where N is the slice issue.
 
 Add a `Co-authored-by` trailer for the human who asked for the work to each commit.
 
-Link the issue with `Fixes #N` in the PR body. GitHub closes the issue when the PR merges.
+GitHub closes the issue when the PR merges.
 
 ## Who merges
 
@@ -42,7 +42,7 @@ A merge needs a passing `ship-pr prep` run on the exact head commit. Only Spark 
 
 ## Labels
 
-Each repo that is in active use has these labels. Run `gh-labels.sh` to add them to a new repo.
+Each repo that is in active use has these labels. Ask Spark to add them to a new repo.
 
 | Label | Use it for |
 | --- | --- |
