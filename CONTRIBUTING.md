@@ -51,3 +51,7 @@ Each repo that is in active use has these labels. Ask Spark to add them to a new
 | `customer:<slug>` | Work for one customer. Only in customer repos. |
 
 Set one `lane:` and one `agent:` label on every issue and PR. Add `customer:` only where the label exists.
+
+## Agent routing
+
+See [AGENT-ROUTING.md](AGENT-ROUTING.md) for which agent takes a slice and the brief template every T3 brief uses.
