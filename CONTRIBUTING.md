@@ -48,6 +48,6 @@ Each repo that is in active use has these labels. Ask Spark to add them to a new
 | --- | --- |
 | `lane:<owner>` | The owner of the slice in Notion: `chief`, `spark`, `aspen`, `roger`, `louis`, `vera`, `gabe`, `routines`, `support`, `dr-eggbot`. |
 | `agent:<agent>` | The agent doing the work: `agent:spark`, `agent:claude-code`, `agent:codex`, `agent:grok-build`, `agent:cursor`. |
-| `customer:<slug>` | Work for one customer, such as `customer:windham`. Only in customer repos. |
+| `customer:<slug>` | Work for one customer. Only in customer repos. |
 
 Set one `lane:` and one `agent:` label on every issue and PR. Add `customer:` only where the label exists.
