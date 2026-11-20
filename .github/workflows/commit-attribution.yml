@@ -1,0 +1,44 @@
+name: Commit attribution
+
+on:
+  workflow_call:
+    inputs:
+      rule-ref:
+        description: Ref of Final-Phase-Solutions/.github that holds the rule
+        type: string
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: Final-Phase-Solutions/.github
+          ref: ${{ inputs.rule-ref }}
+          path: .attribution-rule
+      - name: Hook copy matches the org rule
+        run: |
+          if [ -e .githooks/commit-attribution.sh ] && ! cmp -s .githooks/commit-attribution.sh .attribution-rule/.githooks/commit-attribution.sh; then
+            echo "::error file=.githooks/commit-attribution.sh::Differs from Final-Phase-Solutions/.github/.githooks/commit-attribution.sh. Copy that file over this one."
+            exit 1
+          fi
+      - name: Every commit has an agent trailer
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: sh .attribution-rule/.githooks/commit-attribution.sh range "$BASE" "$HEAD"
+      - name: PR body has an agent trailer
+        if: github.event.pull_request.user.login != 'dependabot[bot]'
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          printf '%s\n' "$BODY" > "$RUNNER_TEMP/pr-body"
+          sh .attribution-rule/.githooks/commit-attribution.sh msg "$RUNNER_TEMP/pr-body" "PR body"

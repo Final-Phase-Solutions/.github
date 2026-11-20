@@ -1,0 +1,19 @@
+name: Attribution
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  attribution:
+    uses: ./.github/workflows/commit-attribution.yml
+    with:
+      rule-ref: ${{ github.event.pull_request.head.sha }}
+  rule-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sh scripts/test-commit-attribution.sh
