@@ -40,8 +40,14 @@ Rules: follow the "Rules and what enforces them" table in this repo's AGENTS.md.
 <paste the table rows that apply to this slice>
 Do not add prose rules. If you hit a new class of mistake, say so in the PR.
 
+Commits: end every commit message and the PR body with
+  Co-authored-by: <your line from CONTRIBUTING.md "Commit attribution">
+  Agent-Model: <your model name and version>
+Do not add Co-authored-by: Gabe Russo. The commit-msg hook rejects a commit without these lines.
+
 Done when:
 - `npm run check:local` passes at your head commit.
+- The Attribution check passes on the PR.
 - Evidence is attached for any UI change: screenshots at 390 px and 1280 px wide.
 - The PR follows the format in CONTRIBUTING.md and starts with the Item ID.
 
@@ -57,4 +63,5 @@ Hand-off: open a pull request. Spark reviews the evidence and merges.
 
 - poteto-mode, spark-talk-principles and no-comments go into every brief, so each agent starts with the same working rules.
 - The rule table lives in each repo's AGENTS.md, so agents on any machine can read it.
+- The trailer lines come from one rule file that the hook, the PR check and `ship-pr prep` all run, so the brief only names the agent's line.
 - The do-nots match the "Who merges" section of [CONTRIBUTING.md](CONTRIBUTING.md).

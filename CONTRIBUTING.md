@@ -30,9 +30,41 @@ The body has these parts:
 4. A screenshot, when anything visible changes.
 5. `Fixes #N`, where N is the slice issue.
 
-Add a `Co-authored-by` trailer for the human who asked for the work to each commit.
+Put the same attribution trailers at the end of the PR body as on the commits, so a squash merge keeps them. See [Commit attribution](#commit-attribution).
 
 GitHub closes the issue when the PR merges.
+
+## Commit attribution
+
+Every commit an agent makes ends with exactly one agent line and one model line:
+
+```text
+Co-authored-by: <agent line>
+Agent-Model: <model name and version>
+```
+
+The agent line is one of these, spelled exactly:
+
+| Agent | Line |
+| --- | --- |
+| Spark | `Co-authored-by: Spark <spark@final-phase.com>` |
+| Claude Code | `Co-authored-by: Claude Code <noreply@anthropic.com>` |
+| Codex | `Co-authored-by: Codex <noreply@openai.com>` |
+| Grok Build | `Co-authored-by: Grok Build <noreply@x.ai>` |
+
+Keep the model version out of the name. Do not add `Co-authored-by: Gabe Russo` to agent commits.
+
+A commit Gabe writes by hand ends with `Human: Gabe` and no agent line.
+
+Dependabot commits and merge commits need no trailer.
+
+Three things enforce this, all from one rule file, [.githooks/commit-attribution.sh](.githooks/commit-attribution.sh):
+
+1. A `commit-msg` hook in each repo's `.githooks/` folder. `npm install` turns it on through the `prepare` script, which runs `git config core.hooksPath .githooks`. In a repo with no `package.json`, run that command yourself.
+2. The [commit-attribution workflow](.github/workflows/commit-attribution.yml). It fails a PR when a commit or the PR body has no allowed trailer, or when the repo's copy of the rule file differs from this one. Each repo calls it from `.github/workflows/attribution.yml`.
+3. `ship-pr prep`, which refuses a branch whose commits fail the rule and writes the trailers into the PR body and the squash message.
+
+To change the rule, edit the rule file here, run `sh scripts/test-commit-attribution.sh`, then copy the file into each repo's `.githooks/`.
 
 ## Who merges
 
